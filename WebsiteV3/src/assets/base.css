@@ -33,6 +33,18 @@ header > a > h1 {
   text-shadow: 0 0 0.5em #00003a;
 }
 
+header > ul {
+  list-style-type: none;
+  float: right;
+  margin: 1.7em 5px 0 0;
+  padding: 10px;
+}
+
+header > ul > li {
+  float: right;
+  text-decoration: none;
+}
+
 footer {
   position: fixed;
   bottom: 0;
