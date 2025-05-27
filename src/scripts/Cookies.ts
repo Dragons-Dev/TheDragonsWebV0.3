@@ -5,7 +5,7 @@ type Cookie = {
 }
 
 export async function createCookie(name: string, value:string, expires: Date) {
-  await fetch('http://127.0.0.1:8000/api/v1/set_cookie', {
+  await fetch('https://127.0.0.1:8000/api/v1/set_cookie', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },  //kommunikation über json
     credentials: 'include',  //cookie setzbar
@@ -14,7 +14,7 @@ export async function createCookie(name: string, value:string, expires: Date) {
 }
 
 export async function editCookieValue(keks: Cookie, change: string) {
-  await fetch('http://127.0.0.1:8000/api/v1/edit_cookie', {
+  await fetch('https://127.0.0.1:8000/api/v1/edit_cookie', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -23,7 +23,7 @@ export async function editCookieValue(keks: Cookie, change: string) {
 }
 
 export async function editCookieExpires(keks: Cookie, change: Date) {
-  await fetch('http://127.0.0.1:8000/api/v1/edit_cookie', {
+  await fetch('https://127.0.0.1:8000/api/v1/edit_cookie', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -32,7 +32,7 @@ export async function editCookieExpires(keks: Cookie, change: Date) {
 }
 
 export async function deleteCookie() {
-  await fetch('http://127.0.0.1:8000/api/v1/delete_cookie', {
+  await fetch('https://127.0.0.1:8000/api/v1/delete_cookie', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -46,7 +46,7 @@ export async function logCookie() {
 
 async function getCookies() {
   try {
-    const cookies = (await (await fetch('http://127.0.0.1:8000/api/v1/get_cookies', {
+    const cookies = (await (await fetch('https://127.0.0.1:8000/api/v1/get_cookies', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include'
