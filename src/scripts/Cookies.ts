@@ -31,12 +31,12 @@ export async function editCookieExpires(keks: Cookie, change: Date) {
   })
 }
 
-export async function deleteCookie() {
+export async function deleteCookie(keks: Cookie) {
   await fetch('https://127.0.0.1:8000/api/v1/delete_cookie', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({name: keks.name,value: change,expires: keks.expires})
+    body: JSON.stringify({name: keks.name})
   })
 }
 
@@ -55,11 +55,10 @@ async function getCookies() {
   } catch (error) {
     console.log(error)
   }
-
 }
 
 export function checkCookie(type: string) {
-  const cookies = document.cookie;
+  const cookies = getCookies();
   switch (type) {
     case login:
       if(cookies.includes("login")) {

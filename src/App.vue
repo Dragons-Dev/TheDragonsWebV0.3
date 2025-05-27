@@ -18,10 +18,10 @@ import { createCookie, editCookieValue, editCookieExpires, deleteCookie, logCook
         <li></li>
       </ul>
     </header>
+    <button @click="createCookie('session','gen',Date.now())">gen</button>
+    <button @click="editCookieValue('session','gen_2')">edit</button>
     <button @click="createCookie('session','gen',Date.now())">Test</button>
-    <button @click="editCookieValue('session','gen',Date.now())">Test</button>
-    <button @click="createCookie('session','gen',Date.now())">Test</button>
-    <button @click="createCookie('session','gen',Date.now())">Test</button>
+    <button @click="deleteCookie('session','gen',Date.now())">delete gen</button>
     <button @click="logCookie()">log cookie</button>
   <RouterView />
     <footer>
