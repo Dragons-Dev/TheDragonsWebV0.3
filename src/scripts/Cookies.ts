@@ -13,30 +13,30 @@ export async function createCookie(name: string, value:string, expires: Date) {
   });
 }
 
-export async function editCookieValue(keks: Cookie, change: string) {
+export async function editCookieValue(keks: string, change: string) {
   await fetch('https://127.0.0.1:8000/api/v1/edit_cookie', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({name: keks.name,value: change,expires: keks.expires})
+    body: JSON.stringify({name: keks,value: change,})
   })
 }
 
-export async function editCookieExpires(keks: Cookie, change: Date) {
+export async function editCookieExpires(keks: string, change: Date) {
   await fetch('https://127.0.0.1:8000/api/v1/edit_cookie', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({name: keks.name,value: keks.value,expires: change})
+    body: JSON.stringify({name: keks, expires: change})
   })
 }
 
-export async function deleteCookie(keks: Cookie) {
+export async function deleteCookie(keks: string) {
   await fetch('https://127.0.0.1:8000/api/v1/delete_cookie', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({name: keks.name})
+    body: JSON.stringify({name: keks})
   })
 }
 
@@ -57,12 +57,16 @@ async function getCookies() {
   }
 }
 
-export function checkCookie(type: string) {
-  const cookies = getCookies();
-  switch (type) {
-    case login:
-      if(cookies.includes("login")) {
-
+export async function checkCookie(keks: string) {
+  const cookies = Object.entries(await getCookies());
+  switch (keks) {
+    case "session":
+      try {
+        const value = cookies.find(([key, val]) => key === "session")?.[1];
+        console.log(value != undefined);
+        return value != undefined;
+      } catch (exception) {
+        console.log(exception)
       }
   }
 }
