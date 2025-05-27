@@ -63,10 +63,12 @@ export async function checkCookie(keks: string) {
     case "session":
       try {
         const value = cookies.find(([key, val]) => key === "session")?.[1];
-        console.log(value != undefined);
+        console.log("moin")
         return value != undefined;
       } catch (exception) {
         console.log(exception)
+        return
       }
   }
 }
+
