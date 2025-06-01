@@ -1,6 +1,7 @@
 
 body {
-  background-color: #233240;
+  background: linear-gradient(to bottom, #23374b, #204865);
+  height: 100vh;
   font-family: sans-serif;
   color: #dedede;
 }
@@ -33,16 +34,32 @@ header > a > h1 {
   text-shadow: 0 0 0.5em #00003a;
 }
 
-header > ul {
+.login-buttons {
   list-style-type: none;
   float: right;
   margin: 1.7em 5px 0 0;
-  padding: 10px;
 }
 
-header > ul > li {
+.login-buttons > li {
   float: right;
   text-decoration: none;
+  margin-left: 0.25em;
+}
+
+.login-buttons > li >button {
+  color: white;
+  font-size: 1.5em;
+  background-color: #23374b;
+  padding: 0.25em;
+  border: 3px solid black;
+  border-radius: 10px;
+  transition: 500ms;
+}
+
+.login-buttons > li >button:hover {
+  background-color: #295e85;
+  border-radius: 7px;
+  border-color: #10283a;
 }
 
 footer {
@@ -72,4 +89,8 @@ footer > ul > li > a {
 
 footer > ul > li:last-child {
   float: right;
+}
+
+.login-boxes {
+  z-index: 20;
 }
