@@ -57,7 +57,7 @@ header > a > h1 {
 }
 
 .login-buttons > li > button:hover {
-  background-color: #295e85;
+  background-color: #295e85 !important;
   border-radius: 7px;
   border-color: #10283a;
 }
