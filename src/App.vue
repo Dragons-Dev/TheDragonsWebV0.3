@@ -3,12 +3,12 @@ import { RouterLink, RouterView } from 'vue-router'
 import "./assets/base.css"
 import {ref} from "vue"
 import {
-  createCookie,
-  editCookieValue,
-  editCookieExpires,
-  deleteCookie,
-  logCookie,
-  checkCookie
+    createCookie,
+    editCookie,
+    deleteCookie,
+    logCookie,
+    getCookies,
+    getCookie
 } from "./scripts/Cookies.ts"
 import loginBox from "./components/templates/loginBox.vue"
 const boxLogin = ref(false)
@@ -51,12 +51,6 @@ const boxLogin = ref(false)
     <footer>
       <ul>
         <li>&copy;2025 thedragons.xyz</li>
-        <li><button @click="createCookie('session','gen',Date.now())">gen</button>
-    <button @click="createCookie('test','genere',Date.now())">test</button>
-    <button @click="editCookieValue('session','gen_2')">edit</button>
-    <button @click="checkCookie('session')">check</button>
-    <button @click="deleteCookie('session','gen',Date.now())">delete gen</button>
-    <button @click="logCookie()">log cookie</button></li>
         <li><RouterLink to="/about">About</RouterLink></li>
       </ul>
     </footer>
