@@ -46,7 +46,7 @@ header > a > h1 {
   margin-left: 0.25em;
 }
 
-.login-buttons > li >button {
+.login-buttons > li > button {
   color: white;
   font-size: 1.5em;
   background-color: #23374b;
@@ -56,7 +56,7 @@ header > a > h1 {
   transition: 500ms;
 }
 
-.login-buttons > li >button:hover {
+.login-buttons > li > button:hover {
   background-color: #295e85;
   border-radius: 7px;
   border-color: #10283a;
