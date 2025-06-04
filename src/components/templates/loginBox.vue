@@ -4,18 +4,27 @@
   const data = reactive({
     name: '',
     password: '',
-    stayLog: ''
+    stay_logged_in: ''
   })
-  export async function checkLogin(): Promise<void> {
+  async function checkLogin(): Promise<void> {
     const send = new FormData()
     send.append("name", data.name)
     send.append("password", data.password)
-    send.append("stayLog", data.stayLog)
-
+    send.append("stay_logged_in", data.stay_logged_in)
     const res = await fetch("https://127.0.0.1:8000/api/v1/authentication/login", {
       method: "POST",
-      body: send
-    })
+      body: send,
+    });
+    await res.json().then((res) => {
+      console.log(res)
+      if (res.status === 200) {
+        window.location.href = "/";
+      } else {
+        alert("Login fehlgeschlagen: " + res.message); //TODO besseres Error Handling -> Nutzer fehler geben
+      }
+    }).catch((err) => {
+      console.error("Fehler beim Verarbeiten der Antwort:", err);
+    });
   }
 
 </script>
@@ -31,7 +40,7 @@
         <input v-model="data.password" type="password" placeholder="Password" size="40" required>
         </label><br>
         <hr>
-        <input v-model="data.stayLog" id="stayLog" type="checkbox"/>
+        <input v-model="data.stay_logged_in" id="stayLog" type="checkbox"/>
         <label for="stayLog">Angemeldet bleiben</label><br>
         <hr>
         <button type="submit">Anmelden</button>

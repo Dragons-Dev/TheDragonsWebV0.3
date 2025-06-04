@@ -1,21 +1,53 @@
 <script setup lang="ts">
 
+import {reactive} from "vue";
+
+const data = reactive({
+  name: '',
+  password1: '',
+  password2: '',
+  stay_logged_in: ''
+})
+async function checkLogin(): Promise<void> {
+  const send = new FormData()
+  send.append("name", data.name)
+  send.append("password", data.password1)
+  const res = await fetch("https://127.0.0.1:8000/api/v1/authentication/register", {
+    method: "POST",
+    body: send,
+  });
+  await res.json().then((res) => {
+    console.log(res)
+    if (res.status === 200) {
+      window.location.href = "/";
+    } else {
+      alert("Login fehlgeschlagen: " + res.message); //TODO besseres Error Handling -> Nutzer fehler geben
+    }
+  }).catch((err) => {
+    console.error("Fehler beim Verarbeiten der Antwort:", err);
+  });
+}
+
 </script>
 
 <template>
   <div class="registerBox">
-    <form action="">
-      <label for="mail">Deine E-Mail:</label><br>
-      <input id="mail" type="email" placeholder="Deine E-Mail" size="40" required><br>
+    <form @submit.prevent="checkLogin()">
+      <label>Deine E-Mail:<br>
+      <input v-model="data.name" placeholder="Deine E-Mail" size="40" required><br>
+      </label>
       <hr>
-      <label for="passw1">Dein Passwort:</label><br>
-      <input id="passw1" type="password" placeholder="Password" size="40" required><br><br>
-      <label for="passw2">Wiederhole dein Passwort:</label><br>
-      <input id="passw2" type="password" placeholder="Password" size="40" required><br>
+      <label>Dein Passwort:<br>
+      <input v-model="data.password1" type="password" placeholder="Password" size="40" required><br><br>
+      </label>
+      <label>Wiederhole dein Passwort:<br>
+      <input v-model="data.password2" type="password" placeholder="Password" size="40" required><br>
+      </label>
       <hr>
+      <label>
       <input id="AGB" type="checkbox" required/>
-      <label for="AGB">AGB zustimmen</label>
-      <a href="" target="_blank">"(zu den AGB's)"</a><br>
+      AGB zustimmen</label>
+      <a href="" target="_blank">(zu den AGB's)</a><br>
       <hr>
       <button>Konto erstellen</button>
     </form>
