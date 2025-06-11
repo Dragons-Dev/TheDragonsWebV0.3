@@ -6,6 +6,9 @@
     password: '',
     stay_logged_in: ''
   })
+
+  const loggedIn = defineModel()
+
   async function checkLogin(): Promise<void> {
     const send = new FormData()
     send.append("name", data.name)
@@ -18,9 +21,9 @@
     await res.json().then((res) => {
       console.log(res)
       if (res.status === 200) {
-        window.location.href = "/";
+        loggedIn.value = true
       } else {
-        alert("Login fehlgeschlagen: " + res.message); //TODO besseres Error Handling -> Nutzer fehler geben
+        document.getElementById("errorMes").style.display = "block"; //TODO besseres Error Handling -> Nutzer fehler geben
       }
     }).catch((err) => {
       console.error("Fehler beim Verarbeiten der Antwort:", err);
@@ -43,6 +46,7 @@
         <input v-model="data.stay_logged_in" id="stayLog" type="checkbox"/>
         <label for="stayLog">Angemeldet bleiben</label><br>
         <hr>
+        <p id="errorMes" style="display: none; color: red; transition: 250ms">Passwort oder Nutzername Falsch!</p>
         <button type="submit">Anmelden</button>
       </form>
     </div>
@@ -86,7 +90,7 @@
     padding: 0.25em;
     border: 2px solid black;
     border-radius: 5px;
-
+    transition: 500ms;
   }
 
   .loginBox > form > button:hover {

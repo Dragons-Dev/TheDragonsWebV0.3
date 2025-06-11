@@ -55,14 +55,16 @@ function loginRegister(box: string) {
       </a>
       <ul class="login-buttons">
         <li v-if="loggedIn"><button @click="" id="user-button">{{ username }}</button></li>
-        <li v-else><button @click="loginRegister('login')" id="login-button">Anmelden</button></li>
+        <li v-else><button @click="loginRegister('login')" id="login-button">Anmelden</button>
+          <transition><loginBox v-model="loggedIn" id="login" v-if="boxLogin"></loginBox></transition>
+          <transition><registerBox v-model="loggedIn" id="register" v-if="boxRegister"></registerBox></transition>
+        </li>
         <li v-if="loggedIn"><button>Abmelden</button></li>
         <li v-else><button @click="loginRegister('register')" id="register-button">Konto erstellen</button></li>
       </ul>
 
       <!--TODO animation wie bei W3Schools mit dem von Paul -->
-      <transition><loginBox id="login" v-if="boxLogin"></loginBox></transition>
-      <transition><registerBox id="register" v-if="boxRegister"></registerBox></transition>
+
       <!--TODO einfügen von register und konto als vorschau -->
 
     </header>

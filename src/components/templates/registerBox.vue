@@ -3,38 +3,61 @@
 import {reactive} from "vue";
 
 const data = reactive({
+  mail: '',
   name: '',
   password1: '',
-  password2: '',
-  stay_logged_in: ''
+  password2: ''
 })
-async function checkLogin(): Promise<void> {
-  const send = new FormData()
-  send.append("name", data.name)
-  send.append("password", data.password1)
-  const res = await fetch("https://127.0.0.1:8000/api/v1/authentication/register", {
-    method: "POST",
-    body: send,
-  });
-  await res.json().then((res) => {
-    console.log(res)
-    if (res.status === 200) {
-      window.location.href = "/";
+
+const loggedIn = defineModel()
+
+async function checkRegister() {
+  const send = new FormData();
+  send.append('mail', data.mail);
+  send.append('name', data.name);
+  send.append('password', data.password1);
+  if (data.password1 == data.password2) {
+    if (checkPassword()) {
+      const res = (await fetch("https://127.0.0.1:8000/api/v1/authentication/register", {
+        method: 'POST',
+        body: send
+      })).json().then((res) => {
+        if (res.status === 200) {
+          loggedIn.value = true
+        }
+        else {
+          if (res.message == "username") {
+            document.getElementById("errorMes").innerHTML = "Der Nutzername existiert bereits!"
+          }
+          else {
+            document.getElementById("errorMes").innerHTML = "Die E-Mail ist bereits vergeben!"
+          }
+        }
+      })
     } else {
-      alert("Login fehlgeschlagen: " + res.message); //TODO besseres Error Handling -> Nutzer fehler geben
+      document.getElementById("errorMes").innerHTML = "Das Passwort muss Groß-und Kleinbuchstaben, eine Zahl enthalten und mindestens 8 Zeichen lang sein!"
     }
-  }).catch((err) => {
-    console.error("Fehler beim Verarbeiten der Antwort:", err);
-  });
+  } else {
+    document.getElementById("errorMes").innerHTML = "Die Passwörter müssen übereinstimmen!"
+    document.getElementById("errorMes").style.display = "block";
+  }
+
+}
+
+function checkPassword() {
+  return data.password1.length >= 8 && /[A-Z]/.test(data.password1) && /[\d]/.test(data.password1) && /[a-z]/.test(data.password1);
 }
 
 </script>
 
 <template>
   <div class="registerBox">
-    <form @submit.prevent="checkLogin()">
+    <form @submit.prevent="checkRegister()">
       <label>Deine E-Mail:<br>
-      <input v-model="data.name" placeholder="Deine E-Mail" size="40" required><br>
+      <input v-model="data.mail" type="email" placeholder="Deine E-Mail" size="40" required><br>
+      </label><br>
+      <label>Dein Nutzername: <br>
+        <input v-model="data.name" type="text" placeholder="Dein Nutzername" size="40" required><br>
       </label>
       <hr>
       <label>Dein Passwort:<br>
@@ -49,7 +72,8 @@ async function checkLogin(): Promise<void> {
       AGB zustimmen</label>
       <a href="" target="_blank">(zu den AGB's)</a><br>
       <hr>
-      <button>Konto erstellen</button>
+      <p id="errorMes" style="display: block; font-size: large; color: #ff0000; width: 20em; transition: 250ms"></p>
+      <button type="submit">Konto erstellen</button>
     </form>
   </div>
 </template>
@@ -73,7 +97,7 @@ async function checkLogin(): Promise<void> {
     color: white;
   }
 
-  .registerBox > form > input {
+  .registerBox > form > label > input {
     border-radius: 0.5em;
     border: 3px solid #10283a;
     padding: 0.25em;
