@@ -20,7 +20,8 @@ async function checkRegister() {
     if (checkPassword()) {
       const res = (await fetch("https://127.0.0.1:8000/api/v1/authentication/register", {
         method: 'POST',
-        body: send
+        body: send,
+        credentials: 'include'
       })).json().then((res) => {
         if (res.status === 200) {
           loggedIn.value = true
@@ -72,7 +73,7 @@ function checkPassword() {
       AGB zustimmen</label>
       <a href="" target="_blank">(zu den AGB's)</a><br>
       <hr>
-      <p id="errorMes" style="display: block; font-size: large; color: #ff0000; width: 20em; transition: 250ms"></p>
+      <p id="errorMes" style="display: block; font-size: large; color: #ff0000; width: 18em; transition: 250ms"></p>
       <button type="submit">Konto erstellen</button>
     </form>
   </div>

@@ -30,14 +30,10 @@ export function getCookie(keks: string): string | undefined {
   return cookies[keks];
 }
 
-export function checkCookie(keks: string) {
-  const cookies = Object.entries(getCookies());
-  switch (keks) {
-    case "session":
-        const value = cookies.find(([key, val]) => key === "session")?.[1];
-        return value !== undefined && value !== '';
-    default:
-      return false
-  }
+export async function userData() {
+    const res = await fetch("https://127.0.0.1:8000/api/v1/authentication/userData", {
+      method: 'get'
+    });
+    return res.json()
 }
 

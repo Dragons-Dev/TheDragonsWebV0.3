@@ -5,10 +5,17 @@ import {ref} from "vue"
 import loginBox from "./components/templates/loginBox.vue"
 import registerBox from './components/templates/registerBox.vue'
 
-import { checkCookie} from "@/scripts/Cookies.ts";
-const loggedIn = ref(false)
-loggedIn.value = checkCookie("session")
+</script>
 
+<script lang="ts">
+const username = ref("Platzhalter")
+import { userData } from "@/scripts/Cookies.ts";
+const loggedIn = ref(false)
+const user = await userData()
+if (user.status == 200) {
+  loggedIn.value = true;
+  username.value = user.data.name;
+}
 
 const boxLogin = ref(false)
 const boxRegister = ref(false)
@@ -40,10 +47,17 @@ function loginRegister(box: string) {
     console.log("BoxError")
   }
 }
-</script>
+function logout() {
+  loggedIn.value = false
+  boxLogin.value = false
+  boxRegister.value = false
+  fetch("https://127.0.0.1:8000/api/v1/authentication/logout", {
+    method: "POST",
+    body: "Log Out",
+  })
+  document.location = "/"
+}
 
-<script lang="ts">
-  const username = ref("Platzhalter")
 </script>
 
 <template>
@@ -54,18 +68,15 @@ function loginRegister(box: string) {
       <h1>DragonsWeb</h1>
       </a>
       <ul class="login-buttons">
-        <li v-if="loggedIn"><button @click="" id="user-button">{{ username }}</button></li>
+        <li v-if="loggedIn"><button id="user-button"><a :href="`/${ username }`">{{ username }}</a></button></li>
         <li v-else><button @click="loginRegister('login')" id="login-button">Anmelden</button>
           <transition><loginBox v-model="loggedIn" id="login" v-if="boxLogin"></loginBox></transition>
           <transition><registerBox v-model="loggedIn" id="register" v-if="boxRegister"></registerBox></transition>
         </li>
-        <li v-if="loggedIn"><button>Abmelden</button></li>
+        <li v-if="loggedIn"><button @click="logout()">Abmelden</button></li>
         <li v-else><button @click="loginRegister('register')" id="register-button">Konto erstellen</button></li>
       </ul>
-
-      <!--TODO animation wie bei W3Schools mit dem von Paul -->
-
-      <!--TODO einfügen von register und konto als vorschau -->
+      <!--TODO maybe beim hovern Konto als vorschau einfügen -->
 
     </header>
 

@@ -17,6 +17,7 @@
     const res = await fetch("https://127.0.0.1:8000/api/v1/authentication/login", {
       method: "POST",
       body: send,
+      credentials: "include"
     });
     await res.json().then((res) => {
       console.log(res)
